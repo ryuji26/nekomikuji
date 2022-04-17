@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nekomikuji/view_controllers/omikuji_view_controller.dart';
 
-class OmikujiPage extends StatelessWidget {
+class OmikujiPage extends ConsumerWidget {
   const OmikujiPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final omikujiController = ref.watch(omikujiControllerProvider);
     return Scaffold(
         appBar: AppBar(
           title: const Text('ねこみくじ'),
@@ -14,15 +17,15 @@ class OmikujiPage extends StatelessWidget {
             children: [
               const Spacer(),
               Image.asset('images/syougatsu2_omijikuji2.png'),
-              const Text(
-                '本日の運勢は...',
-                style: TextStyle(
+              Text(
+                omikujiController.omikujiText,
+                style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  // TODO おみくじボタン
+                  omikujiController.omikujiButtonTapped();
                 },
                 child: const Text(
                   'おみくじをひく',
