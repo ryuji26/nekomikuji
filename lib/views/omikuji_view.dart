@@ -8,6 +8,8 @@ class OmikujiPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final omikujiController = ref.watch(omikujiControllerProvider);
+    String imageName = omikujiController.imageName;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('ねこみくじ'),
@@ -16,7 +18,7 @@ class OmikujiPage extends ConsumerWidget {
           child: Column(
             children: [
               const Spacer(),
-              Image.asset('images/syougatsu2_omijikuji2.png'),
+              Image.asset('$imageName'),
               Text(
                 omikujiController.omikujiText,
                 style: const TextStyle(
@@ -24,9 +26,11 @@ class OmikujiPage extends ConsumerWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  omikujiController.omikujiButtonTapped();
-                },
+                onPressed: omikujiController.count > 0
+                    ? null
+                    : () {
+                        omikujiController.omikujiButtonTapped();
+                      },
                 child: const Text(
                   'おみくじをひく',
                 ),
