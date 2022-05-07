@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nekomikuji/book_list/book_list_page.dart';
 import 'package:nekomikuji/views/omikuji_view.dart';
 
 Future<void> main() async {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OmikujiPage(),
+      home: BookListPage(),
     );
   }
 }
