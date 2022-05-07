@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nekomikuji/add_book/add_book_page.dart';
 import 'package:provider/provider.dart';
 import 'package:nekomikuji/book_list/book_list_model.dart';
 import 'package:nekomikuji/domain/book.dart';
@@ -33,11 +34,31 @@ class BookListPage extends StatelessWidget {
             );
           },
         )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: null,
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton:
+            Consumer<BookListModel>(builder: (context, model, child) {
+          return FloatingActionButton(
+            onPressed: () async {
+              final bool? added = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddBookPage(),
+                  fullscreenDialog: true,
+                ),
+              );
+
+              if (added != null && added) {
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text('本を追加しました'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              model.fetchBookList();
+            },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          );
+        }),
       ),
     );
   }
