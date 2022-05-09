@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nekomikuji/view_controllers/omikuji_view_controller.dart';
+import 'omikuji_model.dart';
 
 class OmikujiPage extends ConsumerWidget {
-  const OmikujiPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final omikujiController = ref.watch(omikujiControllerProvider);
