@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nekomikuji/add_book/add_book_page.dart';
 import 'package:nekomikuji/edit_book/edit_book_page.dart';
+import 'package:nekomikuji/login/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:nekomikuji/book_list/book_list_model.dart';
 import 'package:nekomikuji/domain/book.dart';
@@ -14,6 +15,20 @@ class BookListPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('本一覧'),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              icon: Icon(Icons.person),
+            )
+          ],
         ),
         body: Center(child: Consumer<BookListModel>(
           builder: (context, model, child) {
