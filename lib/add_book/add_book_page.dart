@@ -13,62 +13,77 @@ class AddBookPage extends StatelessWidget {
         ),
         body: Center(child: Consumer<AddBookModel>(
           builder: (context, model, child) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  GestureDetector(
-                    child: SizedBox(
-                      width: 100,
-                      height: 160,
-                      child: model.imageFile != null
-                          ? Image.file(model.imageFile!)
-                          : Container(
-                              color: Colors.grey,
-                            ),
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        child: SizedBox(
+                          width: 100,
+                          height: 160,
+                          child: model.imageFile != null
+                              ? Image.file(model.imageFile!)
+                              : Container(
+                                  color: Colors.grey,
+                                ),
+                        ),
+                        onTap: () async {
+                          await model.pickImage();
+                        },
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(hintText: 'ここにタイトルを入力'),
+                        onChanged: (text) {
+                          model.title = text;
+                        },
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(hintText: 'ここに著者を入力'),
+                        onChanged: (text) {
+                          model.author = text;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            model.startLoading();
+                            await model.addBook();
+                            Navigator.of(context).pop(true);
+                          } catch (e) {
+                            final snackBar = SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text(e.toString()),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } finally {
+                            model.endLoading();
+                          }
+                        },
+                        child: Text('追加する'),
+                      ),
+                    ],
+                  ),
+                ),
+                if (model.isLoading)
+                  Container(
+                    color: Colors.black54,
+                    child: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    onTap: () async {
-                      await model.pickImage();
-                    },
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(hintText: 'ここにタイトルを入力'),
-                    onChanged: (text) {
-                      model.title = text;
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(hintText: 'ここに著者を入力'),
-                    onChanged: (text) {
-                      model.author = text;
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        await model.addBook();
-                        Navigator.of(context).pop(true);
-                      } catch (e) {
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(e.toString()),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                    child: Text('追加する'),
-                  ),
-                ],
-              ),
+              ],
             );
           },
         )),
