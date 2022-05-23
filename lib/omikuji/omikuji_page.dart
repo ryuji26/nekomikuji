@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nekomikuji/book_list/book_list_page.dart';
 import 'omikuji_model.dart';
 
 class OmikujiPage extends ConsumerWidget {
@@ -37,5 +38,18 @@ class OmikujiPage extends ConsumerWidget {
             ],
           ),
         ));
+    FloatingActionButton(
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookListPage(),
+            fullscreenDialog: true,
+          ),
+        );
+      },
+      tooltip: 'Increment',
+      child: Icon(Icons.add),
+    );
   }
 }
